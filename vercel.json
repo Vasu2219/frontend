@@ -1,5 +1,5 @@
 {
-  "name": "rapido-corporate-frontend",
+  "name": "rapido-corporate-frontend-2025",
   "version": 2,
   "builds": [
     {
@@ -22,10 +22,5 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  },
-  "functions": {
-    "src/**/*.js": {
-      "includeFiles": "src/**"
-    }
   }
 }
