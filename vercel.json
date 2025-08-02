@@ -23,6 +23,5 @@
   "env": {
     "NODE_ENV": "production",
     "CI": "false"
-    "NODE_ENV": "production"
   }
 }
