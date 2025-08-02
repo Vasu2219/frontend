@@ -71,7 +71,7 @@ const ServicesPage = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <img 
-                src="/assets/icon.png" 
+                src={`${process.env.PUBLIC_URL}/assets/icon.png`}
                 alt="Rapido Logo" 
                 className="w-8 h-8 object-contain"
               />
@@ -296,7 +296,7 @@ const ServicesPage = () => {
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <img 
-                  src="/assets/icon.png" 
+                  src={`${process.env.PUBLIC_URL}/assets/icon.png`}
                   alt="Rapido Logo" 
                   className="w-8 h-8 object-contain"
                 />

@@ -33,7 +33,7 @@ const ProfilePage = () => {
       await updateProfile(data);
       setIsEditing(false);
     } catch (error) {
-      console.error('Profile update error:', error);
+      // Error handled by AuthContext with toast notifications
     }
   };
 
@@ -43,7 +43,7 @@ const ProfilePage = () => {
       setIsChangingPassword(false);
       reset();
     } catch (error) {
-      console.error('Password change error:', error);
+      // Error handled by AuthContext with toast notifications
     }
   };
 
@@ -77,7 +77,6 @@ const ProfilePage = () => {
       localStorage.removeItem('user');
       window.location.href = '/login';
     } catch (error) {
-      console.error('Delete account error:', error);
       toast.error(error.response?.data?.message || 'Failed to delete account');
     }
   };

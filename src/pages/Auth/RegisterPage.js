@@ -62,7 +62,7 @@ const RegisterPage = () => {
             className="mx-auto h-16 w-16 bg-white rounded-xl flex items-center justify-center shadow-lg border border-gray-100"
           >
             <img 
-              src="/assets/icon.png" 
+              src={`${process.env.PUBLIC_URL}/assets/icon.png`}
               alt="Rapido Logo" 
               className="h-12 w-12 object-contain"
             />

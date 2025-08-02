@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'LOGIN_START' });
     try {
       const response = await authAPI.login(credentials);
-      const { token, user } = response.data;
+      const { token, user } = response.data; // Backend returns { success, data: { token, user } }
       
       apiUtils.setToken(token);
       localStorage.setItem('user', JSON.stringify(user));
@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'LOGIN_START' });
     try {
       const response = await authAPI.register(userData);
-      const { token, user } = response.data;
+      const { token, user } = response.data; // Backend returns { success, data: { token, user } }
       
       apiUtils.setToken(token);
       localStorage.setItem('user', JSON.stringify(user));
@@ -145,7 +145,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await authAPI.logout();
     } catch (error) {
-      console.error('Logout error:', error);
+      // Silent error - logout should always succeed locally
     } finally {
       apiUtils.removeToken();
       localStorage.removeItem('user');
