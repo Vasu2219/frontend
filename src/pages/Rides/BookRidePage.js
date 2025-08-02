@@ -74,27 +74,6 @@ const BookRidePage = () => {
     }
   };
 
-  const popularLocations = [
-    'Office Building A, Sector 5, Bangalore',
-    'Kempegowda International Airport, Bangalore',
-    'Bangalore Central Mall, MG Road',
-    'Tech Park, Electronic City',
-    'UB City, Vittal Mallya Road',
-  ];
-
-  const QuickLocationButton = ({ location, type }) => (
-    <button
-      type="button"
-      onClick={() => setValue(type, location)}
-      className="text-left p-3 rounded-lg border border-gray-200 hover:border-rapido-300 hover:bg-rapido-50 transition-colors duration-200"
-    >
-      <div className="flex items-center space-x-2">
-        <MapPinIcon className="h-4 w-4 text-gray-400" />
-        <span className="text-sm text-gray-700">{location}</span>
-      </div>
-    </button>
-  );
-
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
@@ -115,7 +94,7 @@ const BookRidePage = () => {
           transition={{ delay: 0.1 }}
           className="lg:col-span-2"
         >
-          <div className="bg-white rounded-xl shadow-soft p-6">
+          <div className="bg-white rounded-xl shadow-lg p-6">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Pickup Location */}
               <div>
@@ -140,7 +119,7 @@ const BookRidePage = () => {
                   label="Drop Location"
                   placeholder="Enter drop address"
                   error={errors.drop?.message}
-                  leftIcon={<MapPinIcon className="h-5 w-5 text-gray-400" />}
+                  leftIcon={<MapPinIcon className="h-5 w-5 text-green-400" />}
                   {...register('drop', {
                     required: 'Drop location is required',
                     minLength: {
@@ -157,45 +136,40 @@ const BookRidePage = () => {
                   label="Schedule Time"
                   type="datetime-local"
                   error={errors.scheduleTime?.message}
-                  leftIcon={<CalendarIcon className="h-5 w-5 text-gray-400" />}
+                  leftIcon={<CalendarIcon className="h-5 w-5 text-blue-400" />}
                   {...register('scheduleTime', {
                     required: 'Schedule time is required',
                     validate: (value) => {
                       const selectedTime = new Date(value);
                       const now = new Date();
-                      const minTime = new Date(now.getTime() + 2 * 60 * 60 * 1000); // 2 hours from now
-                      
-                      if (selectedTime < minTime) {
+                      const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+                      if (selectedTime < twoHoursLater) {
                         return 'Please schedule at least 2 hours in advance';
                       }
                       return true;
                     },
                   })}
                 />
-                <p className="mt-1 text-xs text-gray-500">
-                  Minimum 2 hours advance booking required
-                </p>
               </div>
 
               {/* Estimated Fare */}
-              {watchPickup && watchDrop && (
+              {estimatedFare > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-rapido-50 rounded-lg p-4"
+                  className="bg-green-50 border border-green-200 rounded-lg p-4"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <TruckIcon className="h-5 w-5 text-rapido-600" />
-                      <span className="font-medium text-gray-900">Estimated Fare</span>
+                      <TruckIcon className="h-5 w-5 text-green-600" />
+                      <span className="text-sm font-medium text-green-800">
+                        Estimated Fare
+                      </span>
                     </div>
-                    <span className="text-2xl font-bold text-rapido-600">
+                    <span className="text-lg font-bold text-green-600">
                       ₹{estimatedFare}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
-                    *Final fare may vary based on actual distance and traffic
-                  </p>
                 </motion.div>
               )}
 
@@ -214,7 +188,7 @@ const BookRidePage = () => {
           </div>
         </motion.div>
 
-        {/* Quick Actions & Popular Locations */}
+        {/* Quick Actions */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -222,7 +196,7 @@ const BookRidePage = () => {
           className="space-y-6"
         >
           {/* Quick Actions */}
-          <div className="bg-white rounded-xl shadow-soft p-6">
+          <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
             <div className="space-y-3">
               <button
@@ -233,7 +207,7 @@ const BookRidePage = () => {
                   tomorrow.setHours(9, 0, 0, 0);
                   setValue('scheduleTime', tomorrow.toISOString().slice(0, 16));
                 }}
-                className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-rapido-300 hover:bg-rapido-50 transition-colors duration-200"
+                className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors duration-200"
               >
                 <div className="flex items-center space-x-2">
                   <ClockIcon className="h-4 w-4 text-gray-400" />
@@ -250,7 +224,7 @@ const BookRidePage = () => {
                   nextWeek.setHours(9, 0, 0, 0);
                   setValue('scheduleTime', nextWeek.toISOString().slice(0, 16));
                 }}
-                className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-rapido-300 hover:bg-rapido-50 transition-colors duration-200"
+                className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors duration-200"
               >
                 <div className="flex items-center space-x-2">
                   <CalendarIcon className="h-4 w-4 text-gray-400" />
@@ -261,52 +235,20 @@ const BookRidePage = () => {
             </div>
           </div>
 
-          {/* Popular Locations */}
-          <div className="bg-white rounded-xl shadow-soft p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Popular Locations</h3>
-            <div className="space-y-3">
-              <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Pickup Locations</h4>
-                <div className="space-y-2">
-                  {popularLocations.slice(0, 3).map((location, index) => (
-                    <QuickLocationButton
-                      key={`pickup-${index}`}
-                      location={location}
-                      type="pickup"
-                    />
-                  ))}
-                </div>
-              </div>
-              
-              <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Drop Locations</h4>
-                <div className="space-y-2">
-                  {popularLocations.slice(2, 5).map((location, index) => (
-                    <QuickLocationButton
-                      key={`drop-${index}`}
-                      location={location}
-                      type="drop"
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Booking Tips */}
-          <div className="bg-gradient-to-r from-blue-50 to-rapido-50 rounded-xl p-6">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Booking Tips</h3>
             <div className="space-y-3 text-sm text-gray-600">
               <div className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-rapido-600 rounded-full mt-2"></div>
+                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
                 <p>Book at least 2 hours in advance for better approval</p>
               </div>
               <div className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-rapido-600 rounded-full mt-2"></div>
+                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
                 <p>Provide detailed addresses with landmarks</p>
               </div>
               <div className="flex items-start space-x-2">
-                <div className="w-2 h-2 bg-rapido-600 rounded-full mt-2"></div>
+                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
                 <p>Include contact number for driver coordination</p>
               </div>
             </div>
@@ -317,4 +259,4 @@ const BookRidePage = () => {
   );
 };
 
-export default BookRidePage; 
+export default BookRidePage;

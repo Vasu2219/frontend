@@ -67,7 +67,7 @@ const Layout = ({ children }) => {
               <div className="flex-shrink-0">
                 <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm border border-gray-200">
                   <img 
-                    src="/assets/icon.png" 
+                    src={`${process.env.PUBLIC_URL}/assets/icon.png`}
                     alt="Rapido Logo" 
                     className="w-8 h-8 object-contain"
                   />
