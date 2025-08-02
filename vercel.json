@@ -33,6 +33,7 @@
     }
   ],
   "env": {
+    "NODE_ENV": "production",
     "CI": "false",
     "GENERATE_SOURCEMAP": "false",
     "REACT_APP_API_URL": "https://rapido-backend-api.onrender.com/api",
